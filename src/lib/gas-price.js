@@ -19,7 +19,9 @@ export async function updateGasPrice() {
     });
     return;
   }
-
+  
+  // Extract fast price returned from ethgasstation.info
+  // Fast means <2m
   const { fast } = response;
   if (!fast) {
     Logger.error({
@@ -60,6 +62,7 @@ async function getGasPrices() {
     message: 'Fetching gas prices',
   });
 
+  // Send get request to https://ethgasstation.info for the gas price
   const response = await request({
     method: 'GET',
     uri: process.env.GAS_STATION_URL,

@@ -10,6 +10,7 @@ export default class PerpLiquidator {
     this.liquidationStore = liquidationStore;
   }
 
+  // Call _poll()
   start = () => {
     Logger.info({
       at: 'PerpLiquidator#start',
@@ -18,6 +19,7 @@ export default class PerpLiquidator {
     this._poll();
   }
 
+  // Call _liqudateAccounts() after every interval
   _poll = async () => {
     for (;;) {
       await this._liquidateAccounts();
@@ -27,6 +29,7 @@ export default class PerpLiquidator {
   }
 
   _liquidateAccounts = async () => {
+    // Filter out those already included here
     const liquidatableAccounts = this.accountStore.getLiquidatablePerpAccounts()
       .filter(a => !this.liquidationStore.contains(a));
 
@@ -64,6 +67,7 @@ export default class PerpLiquidator {
 
     liquidatableAccounts.forEach(a => this.liquidationStore.add(a));
 
+    // Call liquidatePerceptualAccount for all liquidatableAccounts here
     await Promise.all(liquidatableAccounts.map(async (account) => {
       try {
         await liquidatePerpetualAccount(maxPosPosition, maxNegPosition, account);

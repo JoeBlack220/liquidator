@@ -17,6 +17,7 @@ export const perp = new Perpetual(
   opts,
 );
 
+// Load the liquidator's account
 export async function loadAccounts() {
   if (!process.env.WALLET_PRIVATE_KEY) {
     Logger.error({
@@ -39,6 +40,7 @@ export async function loadAccounts() {
   const soloAccount = solo.web3.eth.accounts.wallet.add(
     process.env.WALLET_PRIVATE_KEY,
   );
+  
   const perpAccount = perp.web3.eth.accounts.wallet.add(
     process.env.WALLET_PRIVATE_KEY,
   );

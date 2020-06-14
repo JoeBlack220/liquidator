@@ -8,6 +8,7 @@ import { delay } from './delay';
 import Logger from './logger';
 
 export default class AccountStore {
+  // four fields all come from dydx library
   constructor() {
     this.liquidatorPerpBalances = [];
     this.liquidatablePerpAccounts = [];
@@ -15,6 +16,7 @@ export default class AccountStore {
     this.expiredAccounts = [];
   }
 
+  // getters for four fields
   getLiquidatorPerpBalances = () => this.liquidatorPerpBalances;
 
   getLiquidatablePerpAccounts = () => this.liquidatablePerpAccounts;
@@ -23,6 +25,7 @@ export default class AccountStore {
 
   getExpiredAccounts = () => this.expiredAccounts;
 
+  // just call _poll()
   start = () => {
     Logger.info({
       at: 'AccountStore#start',
@@ -31,6 +34,7 @@ export default class AccountStore {
     this._poll();
   }
 
+  // just call _update() in a given interval
   _poll = async () => {
     for (;;) {
       try {
@@ -47,6 +51,7 @@ export default class AccountStore {
     }
   }
 
+  // update the four fields in the class
   _update = async () => {
     Logger.info({
       at: 'AccountStore#_update',

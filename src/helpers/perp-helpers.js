@@ -15,7 +15,8 @@ export async function liquidatePerpetualAccount(maxPosPosition, maxNegPosition, 
   const isBuy = new BigNumber(account.position).gt(0);
   const maxPosition = isBuy ? maxPosPosition : maxNegPosition;
   const gasPrice = getGasPrice();
-
+  
+  // Call liquidate from dydx Proxy
   const response = await perp.liquidatorProxy.liquidate(
     account.owner,
     process.env.WALLET_ADDRESS,

@@ -3,15 +3,18 @@ import { delay } from './delay';
 import Logger from './logger';
 
 export default class MarketStore {
+  // two fields come from dydx library
   constructor() {
     this.soloMarkets = [];
     this.perpMarkets = [];
   }
 
+  // getter for two fields
   getSoloMarkets = () => this.soloMarkets;
 
   getPerpMarkets = () => this.perpMarkets;
 
+  // call _poll()
   start = () => {
     Logger.info({
       at: 'MarketStore#start',
@@ -20,6 +23,7 @@ export default class MarketStore {
     this._poll();
   }
 
+  // call _update() after every given interval
   _poll = async () => {
     for (;;) {
       try {
@@ -36,6 +40,7 @@ export default class MarketStore {
     }
   }
 
+  // use dydx library to get two fields updated
   _update = async () => {
     Logger.info({
       at: 'MarketStore#_update',

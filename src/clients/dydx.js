@@ -1,5 +1,5 @@
 import request from 'request-promise-native';
-
+// all get requests that send to dydx to gather some info
 export async function getLiquidatablePerpAccounts() {
   const { accounts } = await request({
     method: 'GET',

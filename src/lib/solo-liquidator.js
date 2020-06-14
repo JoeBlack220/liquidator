@@ -9,6 +9,7 @@ export default class SoloLiquidator {
     this.liquidationStore = liquidationStore;
   }
 
+  // call _poll()
   start = () => {
     Logger.info({
       at: 'SoloLiquidator#start',
@@ -17,6 +18,7 @@ export default class SoloLiquidator {
     this._poll();
   }
 
+  // call _liquidateAccounts() after every given interval
   _poll = async () => {
     for (;;) {
       await this._liquidateAccounts();
@@ -26,6 +28,7 @@ export default class SoloLiquidator {
   }
 
   _liquidateAccounts = async () => {
+    // filter out those already in the liquidationStore
     const liquidatableAccounts = this.accountStore.getLiquidatableSoloAccounts()
       .filter(a => !this.liquidationStore.contains(a));
     const expiredAccounts = this.accountStore.getExpiredAccounts()
@@ -42,7 +45,8 @@ export default class SoloLiquidator {
 
     liquidatableAccounts.forEach(a => this.liquidationStore.add(a));
     expiredAccounts.forEach(a => this.liquidationStore.add(a));
-
+    // call liquidateAccount for every account that is liquidatable
+    // call liquidateExpiredAccount for every account that is expired
     await Promise.all([
       Promise.all(liquidatableAccounts.map(async (account) => {
         try {

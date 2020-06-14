@@ -11,7 +11,6 @@ import GasPriceUpdater from './lib/gas-price-updater';
 import { loadAccounts, initializeSoloLiquidations } from './helpers/web3';
 
 console.log(`Starting in env ${process.env.NODE_ENV}`);
-
 if (Number(process.env.ACCOUNT_POLL_INTERVAL_MS) < 1000) {
   throw new Error('Account Poll Interval too low');
 }
@@ -21,8 +20,10 @@ if (Number(process.env.MARKET_POLL_INTERVAL_MS) < 1000) {
 }
 
 async function start() {
+  // accounts that eligible for liquidate
   const accountStore = new AccountStore();
   const marketStore = new MarketStore();
+  // manage the accounts to be liquidate in a LRU manner
   const liquidationStore = new LiquidationStore();
   const soloLiquidator = new SoloLiquidator(accountStore, marketStore, liquidationStore);
   const perpLiquidator = new PerpLiquidator(accountStore, marketStore, liquidationStore);
